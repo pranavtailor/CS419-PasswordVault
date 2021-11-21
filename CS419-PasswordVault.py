@@ -3,6 +3,7 @@ import tkinter.font as font
 from tkinter import *
 import os
 import json
+import random
 
 root = tk.Tk()
 
@@ -53,7 +54,7 @@ def createMasterPass():
     # tips text
     tip1Text = 'TIPS:'
     tip2Text = '1. Make your Master Password something that you would remember.'
-    tip3Text = '2. Make it secure by adding numbers, letters, and special characers'
+    tip3Text = '2. Make it secure by adding numbers, letters, and special characters'
     tip4Text = '3. Enjoy!'
     text_Label1 = tk.Label(topCreateMasterPass, text = tip1Text)
     text_Label1.place(relx = .25, rely = .7, relwidth = .5, relheight = .05)
@@ -144,10 +145,6 @@ def retrieveEntry():
     # Enter button
     Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData)
     Enter2_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
-    # Tip
-    tip1Text = 'TIP: Entries are CASE SENSITIVE'
-    text_Label1 = tk.Label(topRetrieveEntry, text=tip1Text)
-    text_Label1.place(relx=.25, rely=.95, relwidth=.5, relheight=.05)
 
 
 # Page with 'New Entry' and 'Retrieve Entry' buttons
@@ -155,6 +152,17 @@ def homePageAfterEnter():
     # create window
     homePage = tk.Toplevel(height = HEIGHT, width = WIDTH)
     homePage.title("Password Locker")
+
+    def generateRandomPass():
+        # Creates list of characters that can be used to generate a password
+        chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_`~?,.<>;:'+=/{}[]|"
+        passwordlength = random.randrange(12, 20)
+        password = ""
+        for x in range(0, passwordlength):
+            nextchar = random.choice(chars)
+            password = password + nextchar
+        text_Label1 = tk.Label(homePage, text="generated password: "+password)
+        text_Label1.place(relx=.15, rely=.8, relwidth=.7, relheight=.05)
     # Welcome label
     welcome_Label = tk.Label(homePage, text = "Welcome to Password Locker!")
     welcome_Label.place(relx = .05, rely = .05, relwidth = .9, relheight = .1)
@@ -167,6 +175,12 @@ def homePageAfterEnter():
     retrieveEntry_Button = tk.Button(homePage, text = "Retrieve Entry", command = retrieveEntry)
     retrieveEntry_Button.place(relx = .25, rely = .5, relwidth = .5, relheight = .1)
     retrieveEntry_Button['font'] = smallFont
+    # Generate Random Password button
+    retrieveEntry_Button = tk.Button(homePage, text="Generate Random Password", command=generateRandomPass)
+    retrieveEntry_Button.place(relx=.05, rely=.7, relwidth=.9, relheight=.1)
+    retrieveEntry_Button['font'] = smallFont
+
+
     
     # load json file into python dictionary
     global pass_dict
@@ -285,7 +299,7 @@ enterMasterPass_Label = tk.Label(canvas, text = "Enter Master Password: ")
 enterMasterPass_Label.place(relx = .1, rely = .1, relwidth = .8, relheight = .1)
 enterMasterPass_Label['font'] = bigFont
 # Entry where you enter master password
-enterMasterPass_Entry = tk.Entry(canvas, show="*")
+enterMasterPass_Entry = tk.Entry(canvas)
 enterMasterPass_Entry.place(relx = .25, rely = .2, relwidth = .5, relheight = .1)
 # Submit button 
 goMasterPass_Button = tk.Button(canvas, text = "Submit", command = checkMasterPassToLogin)
