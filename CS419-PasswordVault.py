@@ -118,11 +118,8 @@ def retrieveEntry():
                 secondWord = i.split(':')[1]
                 username = secondWord.split(',')[0]
                 password = secondWord.split(',')[1]
-                uName_StringVar.set(username)
-                pWord_StringVar.set(password)
-            else:
-                softwareDNE_Label = tk.Label(topRetrieveEntry, text = "Software Does Not Exist", fg='#FF0000')
-                softwareDNE_Label.place(relx = .3, rely = .6, relwidth = .4, relheight = .1)
+        uName_StringVar.set(username)
+        pWord_StringVar.set(password)
         
         
         # Label to show username/password)
