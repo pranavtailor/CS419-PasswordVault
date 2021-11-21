@@ -1,0 +1,202 @@
+import tkinter as tk
+import tkinter.font as font
+from tkinter import *
+import os
+
+root = tk.Tk()
+
+HEIGHT = 500
+WIDTH = 400
+
+root.title("Password Locker")
+
+# Creating initial login page
+canvas = tk.Canvas(height = HEIGHT, width = WIDTH)
+canvas.pack()
+
+# Defining font
+smallFont = font.Font(family='Helvtica', size=18)
+bigFont = font.Font(family='Helvtica', size=24)
+
+
+# Create Master Password page
+def createMasterPass():
+    # create window
+    topCreateMasterPass = tk.Toplevel(height = HEIGHT, width = WIDTH)
+    topCreateMasterPass.title("Create Master Password")
+    # Put Created Master Password into new text doc called MasterPass.txt
+    # If master pass already exists, print error message
+    def storeMasterPass():
+        data = open('MasterPassword.txt', 'a')
+        masterPassword = enterNewMasterPass_Entry.get()
+        if not os.stat('MasterPassword.txt').st_size == 0:
+            # Master Pass already exists pop up label (red)
+            masterAlreadyExists_Label = tk.Label(topCreateMasterPass, text = "Master Password Already Exists", fg='#FF0000')
+            masterAlreadyExists_Label.place(relx = .25, rely = .5, relwidth = .5, relheight = .1)
+        else:
+            data.write(masterPassword)
+            data.close()
+            topCreateMasterPass.destroy()
+    
+    
+    # Create master password label
+    createNewMasterPass_Label = tk.Label(topCreateMasterPass, text = "Create Master Password")
+    createNewMasterPass_Label.place(relx = .1, rely = .1, relwidth = .8, relheight = .1)
+    createNewMasterPass_Label['font'] = smallFont
+    # Enter new master password entry
+    enterNewMasterPass_Entry = tk.Entry(topCreateMasterPass)
+    enterNewMasterPass_Entry.place(relx = .25, rely = .2, relwidth = .5, relheight = .1)
+    # Submit button 
+    createMasterPass_Button = tk.Button(topCreateMasterPass, text = "Submit", command = storeMasterPass)
+    createMasterPass_Button.place(relx = .35, rely = .4, relwidth = .3, relheight = .1)
+    
+    # tips text
+    tip1Text = 'TIPS:'
+    tip2Text = '1. Make your Master Password something that you would remember.'
+    tip3Text = '2. Make it secure by adding numbers, letters, and special characers'
+    tip4Text = '3. Enjoy!'
+    text_Label1 = tk.Label(topCreateMasterPass, text = tip1Text)
+    text_Label1.place(relx = .25, rely = .7, relwidth = .5, relheight = .05)
+    text_Label2 = tk.Label(topCreateMasterPass, text = tip2Text)
+    text_Label2.place(relx = 0, rely = .8, relwidth = 1, relheight = .05)
+    text_Label3 = tk.Label(topCreateMasterPass, text = tip3Text)
+    text_Label3.place(relx = 0, rely = .85, relwidth = 1, relheight = .05)
+    text_Label4 = tk.Label(topCreateMasterPass, text = tip4Text)
+    text_Label4.place(relx = .01, rely = .9, relwidth = .2, relheight = .05)
+
+# newEntry page for inputting new entry into Passwords.txt
+def newEntry():
+    topNewEntry = tk.Toplevel(height = HEIGHT, width = WIDTH)
+    topNewEntry.title("New Entry")
+    # Put info in text doc
+    def storeData():
+        data = open('Passwords.txt', 'a')
+        software = software_entry.get()
+        username = username_entry.get()
+        password = password_entry.get()
+        data.write(software + ': ' + username + ', ' + password + "\n")
+        data.close()
+        topNewEntry.destroy()  
+    # section 1 (what software is it)
+    software_label = tk.Label(topNewEntry, text = "Software: ")
+    software_label.place(relx = .1, rely = .1)
+    software_label['font'] = smallFont
+    software_entry = tk.Entry(topNewEntry)
+    software_entry.place(relx = .4, rely = .1, relwidth = .4, relheight = .1)
+    # section 2 what is username)
+    username_label = tk.Label(topNewEntry, text = "Username: ")
+    username_label.place(relx = .1, rely = .3)
+    username_label['font'] = smallFont
+    username_entry = tk.Entry(topNewEntry)
+    username_entry.place(relx = .4, rely = .3, relwidth = .4, relheight = .1)
+    # section 3 (what is password)
+    password_label = tk.Label(topNewEntry, text = "Password: ")
+    password_label.place(relx = .1, rely = .5)
+    password_label['font'] = smallFont
+    password_entry = tk.Entry(topNewEntry)
+    password_entry.place(relx = .4, rely = .5, relwidth = .4, relheight = .1)
+    # Enter button
+    Enter_button = tk.Button(topNewEntry, text = "Enter", command = storeData)
+    Enter_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
+
+# Retrieve Entry Page
+def retrieveEntry():
+    topRetrieveEntry = tk.Toplevel(height = HEIGHT, width = WIDTH)
+    topRetrieveEntry.title("Retrieve Entry")
+    def getData():
+        data = open('Passwords.txt', 'r')
+        text = data.readlines()
+        newList = []
+        for line in text:
+            newList.append(line.strip())
+        software = software2_entry.get()
+        for i in newList:
+            firstWord = i.split(':')[0] 
+            if firstWord == software:
+                secondWord = i.split(':')[1]
+        # Label to show username/password)
+        username = secondWord.split(',')[0]
+        password = secondWord.split(',')[1]
+        showUser_label = tk.Label(topRetrieveEntry, text = username)
+        showUser_label.place(relx = .35, rely = .3)
+        showUser_label['font'] = smallFont
+        showPass_label = tk.Label(topRetrieveEntry, text = password)
+        showPass_label.place(relx = .35, rely = .4)
+        showPass_label['font'] = smallFont
+    # Section 1 (what software is it)
+    software2_label = tk.Label(topRetrieveEntry, text = "Software: ")
+    software2_label.place(relx = .1, rely = .1)
+    software2_label['font'] = smallFont
+    software2_entry = tk.Entry(topRetrieveEntry)
+    software2_entry.place(relx = .4, rely = .1, relwidth = .4, relheight = .1)
+    # Username and password tag in front of where credentials will show up
+    UserTag_Label = tk.Label(topRetrieveEntry, text = "Username: ")
+    UserTag_Label.place(relx = .1, rely = .3)
+    UserTag_Label['font'] = smallFont
+    UserPass_Label = tk.Label(topRetrieveEntry, text = "Password: ")
+    UserPass_Label.place(relx = .1, rely = .4)
+    UserPass_Label['font'] = smallFont
+    # Enter button
+    Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData)
+    Enter2_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
+
+    
+# Page with 'New Entry' and 'Retrieve Entry' buttons
+def homePageAfterEnter():
+    # create window
+    homePage = tk.Toplevel(height = HEIGHT, width = WIDTH)
+    homePage.title("Password Locker")
+    # Welcome label
+    welcome_Label = tk.Label(homePage, text = "Welcome to Password Locker!")
+    welcome_Label.place(relx = .05, rely = .05, relwidth = .9, relheight = .1)
+    welcome_Label['font'] = smallFont
+    # New Entry button
+    newEntry_Button = tk.Button(homePage, text = "New Entry", command = newEntry)
+    newEntry_Button.place(relx = .25, rely = .3, relwidth = .5, relheight = .1)
+    newEntry_Button['font'] = smallFont
+    # Retrieve Entry button
+    retrieveEntry_Button = tk.Button(homePage, text = "Retrieve Entry", command = retrieveEntry)
+    retrieveEntry_Button.place(relx = .25, rely = .5, relwidth = .5, relheight = .1)
+    retrieveEntry_Button['font'] = smallFont
+    
+    
+# check if master password entered is correct
+def checkMasterPassToLogin():
+    data = open('MasterPassword.txt', 'r')
+    masterPass = data.read()
+    inputtedMasterPass = enterMasterPass_Entry.get()
+    if inputtedMasterPass != masterPass:
+        incorrectMaster_Label = tk.Label(canvas, text = "Incorrect Master Password", fg='#FF0000')
+        incorrectMaster_Label.place(relx = .25, rely = .45, relwidth = .5, relheight = .1)
+    elif inputtedMasterPass == masterPass:
+        homePageAfterEnter()
+
+    data.close()
+        
+
+                     
+                
+# Login page (in canvas)
+# Functionality: Login, Set master password
+# Enter Master password label
+enterMasterPass_Label = tk.Label(canvas, text = "Enter Master Password: ")
+enterMasterPass_Label.place(relx = .1, rely = .1, relwidth = .8, relheight = .1)
+enterMasterPass_Label['font'] = bigFont
+# Entry where you enter master password
+enterMasterPass_Entry = tk.Entry(canvas)
+enterMasterPass_Entry.place(relx = .25, rely = .2, relwidth = .5, relheight = .1)
+# Submit button 
+goMasterPass_Button = tk.Button(canvas, text = "Submit", command = checkMasterPassToLogin)
+goMasterPass_Button.place(relx = .35, rely = .35, relwidth = .3, relheight = .1)
+# First time user label
+dontHaveMasterPass_Label = tk.Label(canvas, text="First time user?")
+dontHaveMasterPass_Label.place(relx = .1, rely = .6, relwidth = .8, relheight = .1)
+enterMasterPass_Label['font'] = smallFont
+# Create master password button
+dontHaveMasterPass_Button = tk.Button(canvas, text = "Create Master Password", command = createMasterPass)
+dontHaveMasterPass_Button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
+
+
+
+
+root.mainloop()
