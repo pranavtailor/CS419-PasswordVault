@@ -144,6 +144,10 @@ def retrieveEntry():
     # Enter button
     Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData)
     Enter2_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
+    # Tip
+    tip1Text = 'TIP: Entries are CASE SENSITIVE'
+    text_Label1 = tk.Label(topRetrieveEntry, text=tip1Text)
+    text_Label1.place(relx=.25, rely=.95, relwidth=.5, relheight=.05)
 
 
 # Page with 'New Entry' and 'Retrieve Entry' buttons
