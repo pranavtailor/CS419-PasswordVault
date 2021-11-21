@@ -73,8 +73,9 @@ def newEntry():
         software = software_entry.get()
         username = username_entry.get()
         password = password_entry.get()
-        pass_dict[software] = [username, password]
-        topNewEntry.destroy()  
+        if software != '' and username != '' and password != '':
+            pass_dict[software] = [username, password]
+            topNewEntry.destroy()
     # section 1 (what software is it)
     software_label = tk.Label(topNewEntry, text = "Software: ")
     software_label.place(relx = .1, rely = .1)
