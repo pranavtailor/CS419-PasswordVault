@@ -197,10 +197,83 @@ def checkMasterPassToLogin():
         homePageAfterEnter()
 
     data.close()
-        
 
-                     
-                
+# Checks the strength of the password by checking for variation of character in the password
+def PassStrengthChecker():
+    #Creates window
+    topRetrieveEntry = tk.Toplevel(height = HEIGHT, width = WIDTH)
+    topRetrieveEntry.title("Password Strength Checker")
+    def PasswordCalculator():
+        Password = Password_Entry.get()
+        score = 0
+        score += (len(Password) * 4)
+        lowercase = 0
+        uppercase = 0
+        number = 0
+        miscchar = 0
+        #Scans the password and adds points based off of the character types
+        for character in Password:
+            if character in "abcdefghijklmnopqrstuvwxyz":
+                score += 2
+                lowercase = 1
+            elif character in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                score += 2
+                uppercase = 1
+            elif character in "0123456789":
+                score += 2
+                number = 1
+            elif character in "!@#$%^&*()-_`~?,.<>;:'+=/{}[]|":
+                score += 2
+                miscchar = 1
+            else: score += 0 #Letter not found using our set of characters to scan for. Ignore key
+        for character1, character2 in zip(Password, Password[1:]):
+            if character1 == character2:
+                score -= len(Password)
+        #Checks for missing character types, subtracts points if none are in the password
+        if lowercase == 0:
+            score -= len(Password)
+        if uppercase == 0:
+            score -= len(Password)
+        if number == 0:
+            score -= len(Password)
+        if miscchar == 0:
+            score -= len(Password)
+        #Grades score and returns strength based off of the score
+        if score < 0:
+            passStr = ("Very Weak Password!")
+        elif score < 20:
+            passStr=("Weak Password!")
+        elif score < 50:
+            passStr=("Strong Password!")
+        else:
+            passStr=("Very Strong Password")
+        Passwordstrength = tk.Label(topRetrieveEntry, text=passStr)
+        Passwordstrength.place(relx=.15, rely=.6, relwidth=.7, relheight=.05)
+        Passwordscore = tk.Label(topRetrieveEntry, text=score)
+        Passwordscore.place(relx=.15, rely=.65, relwidth=.7, relheight=.05)
+
+    # Creates password checker label
+    PasswordStrengthTest_Label = tk.Label(topRetrieveEntry, text="Enter password to be checked")
+    PasswordStrengthTest_Label.place(relx=.1, rely=.1, relwidth=.85, relheight=.1)
+    PasswordStrengthTest_Label['font'] = smallFont
+    # Creates box to enter password to be checked
+    Password_Entry = tk.Entry(topRetrieveEntry)
+    Password_Entry.place(relx=.25, rely=.2, relwidth=.5, relheight=.1)
+    # Submit password button
+    PasswordStrengthTest_Button = tk.Button(topRetrieveEntry, text="Submit", command=PasswordCalculator)
+    PasswordStrengthTest_Button.place(relx=.35, rely=.4, relwidth=.3, relheight=.1)
+    tip = "Do not enter your own password into this box!"
+    tip1 = "Use all sorts of characters like:"
+    tip2 = "lowercase, uppercase, numbers, and even special characters!"
+    text_Label1 = tk.Label(topRetrieveEntry, text=tip)
+    text_Label1.place(relx = .15, rely = .7, relwidth = .7, relheight = .05)
+    text_Label2 = tk.Label(topRetrieveEntry, text=tip1)
+    text_Label2.place(relx = .15, rely = .75, relwidth = .7, relheight = .05)
+    text_Label3 = tk.Label(topRetrieveEntry, text=tip2)
+    text_Label3.place(relx = .025, rely = .8, relwidth = 1, relheight = .05)
+
+
+
 # Login page (in canvas)
 # Functionality: Login, Set master password
 # Enter Master password label
@@ -220,6 +293,9 @@ enterMasterPass_Label['font'] = smallFont
 # Create master password button
 dontHaveMasterPass_Button = tk.Button(canvas, text = "Create Master Password", command = createMasterPass)
 dontHaveMasterPass_Button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
+#Test password Strength button
+PasswordStrengthTest_Button = tk.Button(canvas, text = "Test Password Strength", command = PassStrengthChecker)
+PasswordStrengthTest_Button.place(relx = .2, rely = .9, relwidth = .6, relheight = .1)
 
 
 
