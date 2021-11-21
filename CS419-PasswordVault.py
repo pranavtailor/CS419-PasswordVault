@@ -116,13 +116,16 @@ def retrieveEntry():
             firstWord = i.split(':')[0] 
             if firstWord == software:
                 secondWord = i.split(':')[1]
+                username = secondWord.split(',')[0]
+                password = secondWord.split(',')[1]
+                uName_StringVar.set(username)
+                pWord_StringVar.set(password)
+            else:
+                softwareDNE_Label = tk.Label(topRetrieveEntry, text = "Software Does Not Exist", fg='#FF0000')
+                softwareDNE_Label.place(relx = .3, rely = .6, relwidth = .4, relheight = .1)
+        
+        
         # Label to show username/password)
-        username = secondWord.split(',')[0]
-        password = secondWord.split(',')[1]
-        
-        uName_StringVar.set(username)
-        pWord_StringVar.set(password)
-        
         showUser_label = tk.Label(topRetrieveEntry, textvariable = uName_StringVar)
         showUser_label.place(relx = .4, rely = .3)
         showUser_label['font'] = smallFont
@@ -147,9 +150,6 @@ def retrieveEntry():
     Enter2_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
 
 
-
-
-    
 # Page with 'New Entry' and 'Retrieve Entry' buttons
 def homePageAfterEnter():
     # create window
