@@ -18,7 +18,6 @@ canvas.pack()
 smallFont = font.Font(family='Helvtica', size=18)
 bigFont = font.Font(family='Helvtica', size=24)
 
-
 # Create Master Password page
 def createMasterPass():
     # create window
@@ -99,6 +98,9 @@ def newEntry():
     Enter_button = tk.Button(topNewEntry, text = "Enter", command = storeData)
     Enter_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
 
+
+uName_StringVar = StringVar()
+pWord_StringVar = StringVar()
 # Retrieve Entry Page
 def retrieveEntry():
     topRetrieveEntry = tk.Toplevel(height = HEIGHT, width = WIDTH)
@@ -117,11 +119,15 @@ def retrieveEntry():
         # Label to show username/password)
         username = secondWord.split(',')[0]
         password = secondWord.split(',')[1]
-        showUser_label = tk.Label(topRetrieveEntry, text = username)
-        showUser_label.place(relx = .35, rely = .3)
+        
+        uName_StringVar.set(username)
+        pWord_StringVar.set(password)
+        
+        showUser_label = tk.Label(topRetrieveEntry, textvariable = uName_StringVar)
+        showUser_label.place(relx = .4, rely = .3)
         showUser_label['font'] = smallFont
-        showPass_label = tk.Label(topRetrieveEntry, text = password)
-        showPass_label.place(relx = .35, rely = .4)
+        showPass_label = tk.Label(topRetrieveEntry, textvariable = pWord_StringVar)
+        showPass_label.place(relx = .4, rely = .4)
         showPass_label['font'] = smallFont
     # Section 1 (what software is it)
     software2_label = tk.Label(topRetrieveEntry, text = "Software: ")
@@ -137,8 +143,11 @@ def retrieveEntry():
     UserPass_Label.place(relx = .1, rely = .4)
     UserPass_Label['font'] = smallFont
     # Enter button
-    Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData)
+    Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData )
     Enter2_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
+
+
+
 
     
 # Page with 'New Entry' and 'Retrieve Entry' buttons
@@ -159,6 +168,7 @@ def homePageAfterEnter():
     retrieveEntry_Button.place(relx = .25, rely = .5, relwidth = .5, relheight = .1)
     retrieveEntry_Button['font'] = smallFont
     
+
     
 # check if master password entered is correct
 def checkMasterPassToLogin():
