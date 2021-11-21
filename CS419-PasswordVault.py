@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.font as font
 from tkinter import *
 import os
+import json
 
 root = tk.Tk()
 
@@ -63,18 +64,16 @@ def createMasterPass():
     text_Label4 = tk.Label(topCreateMasterPass, text = tip4Text)
     text_Label4.place(relx = .01, rely = .9, relwidth = .2, relheight = .05)
 
-# newEntry page for inputting new entry into Passwords.txt
+# newEntry page for inputting new entry into passwords.json
 def newEntry():
     topNewEntry = tk.Toplevel(height = HEIGHT, width = WIDTH)
     topNewEntry.title("New Entry")
-    # Put info in text doc
+    # Put info in dictionary
     def storeData():
-        data = open('Passwords.txt', 'a')
         software = software_entry.get()
         username = username_entry.get()
         password = password_entry.get()
-        data.write(software + ': ' + username + ', ' + password + "\n")
-        data.close()
+        pass_dict[software] = [username, password]
         topNewEntry.destroy()  
     # section 1 (what software is it)
     software_label = tk.Label(topNewEntry, text = "Software: ")
@@ -101,26 +100,23 @@ def newEntry():
 
 uName_StringVar = StringVar()
 pWord_StringVar = StringVar()
+softwareDNE_StringVar = StringVar()
 # Retrieve Entry Page
 def retrieveEntry():
     topRetrieveEntry = tk.Toplevel(height = HEIGHT, width = WIDTH)
     topRetrieveEntry.title("Retrieve Entry")
     def getData():
-        data = open('Passwords.txt', 'r')
-        text = data.readlines()
-        newList = []
-        for line in text:
-            newList.append(line.strip())
         software = software2_entry.get()
-        for i in newList:
-            firstWord = i.split(':')[0] 
-            if firstWord == software:
-                secondWord = i.split(':')[1]
-                username = secondWord.split(',')[0]
-                password = secondWord.split(',')[1]
-        uName_StringVar.set(username)
-        pWord_StringVar.set(password)
-        
+        if software in pass_dict:
+            username = pass_dict[software][0]
+            password = pass_dict[software][1]
+            uName_StringVar.set(username)
+            pWord_StringVar.set(password)
+            softwareDNE_StringVar.set("")
+        else:
+            uName_StringVar.set('')
+            pWord_StringVar.set('')
+            softwareDNE_StringVar.set("Software Does Not Exist")
         
         # Label to show username/password)
         showUser_label = tk.Label(topRetrieveEntry, textvariable = uName_StringVar)
@@ -129,6 +125,8 @@ def retrieveEntry():
         showPass_label = tk.Label(topRetrieveEntry, textvariable = pWord_StringVar)
         showPass_label.place(relx = .4, rely = .4)
         showPass_label['font'] = smallFont
+        softwareDNE_Label = tk.Label(topRetrieveEntry, textvariable = softwareDNE_StringVar, fg='#FF0000')
+        softwareDNE_Label.place(relx = .3, rely = .6, relwidth = .4, relheight = .1)
     # Section 1 (what software is it)
     software2_label = tk.Label(topRetrieveEntry, text = "Software: ")
     software2_label.place(relx = .1, rely = .1)
@@ -143,7 +141,7 @@ def retrieveEntry():
     UserPass_Label.place(relx = .1, rely = .4)
     UserPass_Label['font'] = smallFont
     # Enter button
-    Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData )
+    Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData)
     Enter2_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
 
 
@@ -165,8 +163,27 @@ def homePageAfterEnter():
     retrieveEntry_Button.place(relx = .25, rely = .5, relwidth = .5, relheight = .1)
     retrieveEntry_Button['font'] = smallFont
     
+    # load json file into python dictionary
+    global pass_dict
+    try:
+        pass_file = open('passwords.json', 'r')
+        pass_dict = json.load(pass_file)
+        pass_file.close()
+    except FileNotFoundError:
+        pass_dict = {}
+
+    # called when homePage is closed
+    def on_closing_home():
+        pass_file = open('passwords.json', 'w')
+        json.dump(pass_dict, pass_file, indent=4)
+        pass_file.close()
+
+        homePage.destroy()
+
+    homePage.wm_protocol("WM_DELETE_WINDOW", on_closing_home)
 
     
+
 # check if master password entered is correct
 def checkMasterPassToLogin():
     data = open('MasterPassword.txt', 'r')
