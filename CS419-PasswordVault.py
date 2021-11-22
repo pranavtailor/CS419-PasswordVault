@@ -213,6 +213,7 @@ def homePageAfterEnter(inputted_pass):
 
 # check if master password entered is correct
 def checkMasterPassToLogin():
+    global master_password
     data = open('MasterPassword.txt', 'r')
     masterPass_hash = data.read()
     inputtedMasterPass = enterMasterPass_Entry.get()
@@ -221,6 +222,7 @@ def checkMasterPassToLogin():
         incorrectMaster_Label = tk.Label(canvas, text = "Incorrect Master Password", fg='#FF0000')
         incorrectMaster_Label.place(relx = .25, rely = .45, relwidth = .5, relheight = .1)
     elif inputtedMasterPass_hash == masterPass_hash:
+        master_password = inputtedMasterPass
         homePageAfterEnter(inputtedMasterPass)
 
     data.close()
@@ -324,7 +326,20 @@ dontHaveMasterPass_Button.place(relx = .2, rely = .7, relwidth = .6, relheight =
 PasswordStrengthTest_Button = tk.Button(canvas, text = "Test Password Strength", command = PassStrengthChecker)
 PasswordStrengthTest_Button.place(relx = .2, rely = .9, relwidth = .6, relheight = .1)
 
+# called when root is closed
+def on_closing_root():
+    try:
+        text = json.dumps(pass_dict)
+        encoded = utils.encode_vigenere_cipher(text, master_password)
+        pass_file = open('passwords.txt', 'w')
+        pass_file.write(encoded)
+        pass_file.close()
+    except NameError:
+        pass
+    
+    root.destroy()
 
+root.wm_protocol("WM_DELETE_WINDOW", on_closing_root)
 
 
 root.mainloop()
