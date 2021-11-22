@@ -4,7 +4,7 @@ Password storage program with end-to-end encryption
 
 Group:
   - Pranav Tailor
-  - Usayed Majmud
+  - Usayed Mahmud
   - Joshua Sennett
   - Tim Walker
   - Taha Bekmez
