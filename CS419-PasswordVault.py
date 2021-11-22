@@ -36,7 +36,7 @@ def createMasterPass():
             masterAlreadyExists_Label = tk.Label(topCreateMasterPass, text = "Master Password Already Exists", fg='#FF0000')
             masterAlreadyExists_Label.place(relx = .25, rely = .5, relwidth = .5, relheight = .1)
         else:
-            data.write(masterPassword)
+            data.write(utils.hash_code(masterPassword))
             data.close()
             topCreateMasterPass.destroy()
     
@@ -214,12 +214,13 @@ def homePageAfterEnter(inputted_pass):
 # check if master password entered is correct
 def checkMasterPassToLogin():
     data = open('MasterPassword.txt', 'r')
-    masterPass = data.read()
+    masterPass_hash = data.read()
     inputtedMasterPass = enterMasterPass_Entry.get()
-    if inputtedMasterPass != masterPass:
+    inputtedMasterPass_hash = utils.hash_code(inputtedMasterPass)
+    if inputtedMasterPass_hash != masterPass_hash:
         incorrectMaster_Label = tk.Label(canvas, text = "Incorrect Master Password", fg='#FF0000')
         incorrectMaster_Label.place(relx = .25, rely = .45, relwidth = .5, relheight = .1)
-    elif inputtedMasterPass == masterPass:
+    elif inputtedMasterPass_hash == masterPass_hash:
         homePageAfterEnter(inputtedMasterPass)
 
     data.close()

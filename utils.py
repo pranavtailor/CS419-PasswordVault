@@ -1,7 +1,16 @@
 
 # hash function
 def hash_code(key):
-    return ''
+    a = 63689
+    b = 378551
+    hash = 0
+
+    for i in range(len(key)):
+        hash = hash * a + ord(key[i])
+        a = a * b
+    
+    return str(hash % 11869930968749383363)
+
 
 def encode_vigenere_cipher(text, key):
     encoded = ''
