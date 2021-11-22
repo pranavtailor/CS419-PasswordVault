@@ -25,4 +25,5 @@ How to run:
       - pip install python-utils  (enter this into cmd)
       - easy_install python-utils  (or enter this if pip not available)
       - https://pypi.org/project/python-utils/  (or manually download from here)
+  - Put both files into an IDE and hit run
 
