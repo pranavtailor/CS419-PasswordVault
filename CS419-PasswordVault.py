@@ -4,6 +4,7 @@ from tkinter import *
 import os
 import json
 import random
+import utils
 
 root = tk.Tk()
 
@@ -152,7 +153,7 @@ def retrieveEntry():
 
 
 # Page with 'New Entry' and 'Retrieve Entry' buttons
-def homePageAfterEnter():
+def homePageAfterEnter(inputted_pass):
     # create window
     homePage = tk.Toplevel(height = HEIGHT, width = WIDTH)
     homePage.title("Password Locker")
@@ -189,16 +190,19 @@ def homePageAfterEnter():
     # load json file into python dictionary
     global pass_dict
     try:
-        pass_file = open('passwords.json', 'r')
-        pass_dict = json.load(pass_file)
+        pass_file = open('passwords.txt', 'r')
+        decoded = utils.decode_vigenere_cipher(pass_file.read(), inputted_pass)
+        pass_dict = json.loads(decoded)
         pass_file.close()
     except FileNotFoundError:
         pass_dict = {}
 
     # called when homePage is closed
     def on_closing_home():
-        pass_file = open('passwords.json', 'w')
-        json.dump(pass_dict, pass_file, indent=4)
+        text = json.dumps(pass_dict)
+        encoded = utils.encode_vigenere_cipher(text, inputted_pass)
+        pass_file = open('passwords.txt', 'w')
+        pass_file.write(encoded)
         pass_file.close()
 
         homePage.destroy()
@@ -216,7 +220,7 @@ def checkMasterPassToLogin():
         incorrectMaster_Label = tk.Label(canvas, text = "Incorrect Master Password", fg='#FF0000')
         incorrectMaster_Label.place(relx = .25, rely = .45, relwidth = .5, relheight = .1)
     elif inputtedMasterPass == masterPass:
-        homePageAfterEnter()
+        homePageAfterEnter(inputtedMasterPass)
 
     data.close()
 
