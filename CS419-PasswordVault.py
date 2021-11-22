@@ -49,7 +49,7 @@ def createMasterPass():
     enterNewMasterPass_Entry = tk.Entry(topCreateMasterPass)
     enterNewMasterPass_Entry.place(relx = .25, rely = .2, relwidth = .5, relheight = .1)
     # Submit button 
-    createMasterPass_Button = tk.Button(topCreateMasterPass, text = "Submit", command = storeMasterPass)
+    createMasterPass_Button = tk.Button(topCreateMasterPass, text = "Submit", command = storeMasterPass, bg='#00FF00')
     createMasterPass_Button.place(relx = .35, rely = .4, relwidth = .3, relheight = .1)
     
     # tips text
@@ -97,7 +97,7 @@ def newEntry():
     password_entry = tk.Entry(topNewEntry)
     password_entry.place(relx = .4, rely = .5, relwidth = .4, relheight = .1)
     # Enter button
-    Enter_button = tk.Button(topNewEntry, text = "Enter", command = storeData)
+    Enter_button = tk.Button(topNewEntry, text = "Enter", command = storeData, bg='#00FF00')
     Enter_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
 
 
@@ -144,7 +144,7 @@ def retrieveEntry():
     UserPass_Label.place(relx = .1, rely = .4)
     UserPass_Label['font'] = smallFont
     # Enter button
-    Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData)
+    Enter2_button = tk.Button(topRetrieveEntry, text = "Enter", command = getData, bg='#00FF00')
     Enter2_button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
     # Tip
     tip1Text = 'TIP: Entries are CASE SENSITIVE'
@@ -166,22 +166,22 @@ def homePageAfterEnter(inputted_pass):
         for x in range(0, passwordlength):
             nextchar = random.choice(chars)
             password = password + nextchar
-        text_Label1 = tk.Label(homePage, text="generated password: "+password)
-        text_Label1.place(relx=.15, rely=.8, relwidth=.7, relheight=.05)
+        text_Label1 = tk.Label(homePage, text="Generated Password: "+password, fg='#FF0000')
+        text_Label1.place(relx=.15, rely=.85, relwidth=.7, relheight=.05)
     # Welcome label
     welcome_Label = tk.Label(homePage, text = "Welcome to Password Locker!")
     welcome_Label.place(relx = .05, rely = .05, relwidth = .9, relheight = .1)
     welcome_Label['font'] = smallFont
     # New Entry button
-    newEntry_Button = tk.Button(homePage, text = "New Entry", command = newEntry)
+    newEntry_Button = tk.Button(homePage, text = "New Entry", command = newEntry, bg = '#FFBF00')
     newEntry_Button.place(relx = .25, rely = .3, relwidth = .5, relheight = .1)
     newEntry_Button['font'] = smallFont
     # Retrieve Entry button
-    retrieveEntry_Button = tk.Button(homePage, text = "Retrieve Entry", command = retrieveEntry)
+    retrieveEntry_Button = tk.Button(homePage, text = "Retrieve Entry", command = retrieveEntry, bg = '#FFBF00')
     retrieveEntry_Button.place(relx = .25, rely = .5, relwidth = .5, relheight = .1)
     retrieveEntry_Button['font'] = smallFont
     # Generate Random Password button
-    retrieveEntry_Button = tk.Button(homePage, text="Generate Random Password", command=generateRandomPass)
+    retrieveEntry_Button = tk.Button(homePage, text="Generate Random Password", command=generateRandomPass, bg = '#FFBF00')
     retrieveEntry_Button.place(relx=.05, rely=.7, relwidth=.9, relheight=.1)
     retrieveEntry_Button['font'] = smallFont
 
@@ -213,7 +213,6 @@ def homePageAfterEnter(inputted_pass):
 
 # check if master password entered is correct
 def checkMasterPassToLogin():
-    global master_password
     data = open('MasterPassword.txt', 'r')
     masterPass_hash = data.read()
     inputtedMasterPass = enterMasterPass_Entry.get()
@@ -222,7 +221,6 @@ def checkMasterPassToLogin():
         incorrectMaster_Label = tk.Label(canvas, text = "Incorrect Master Password", fg='#FF0000')
         incorrectMaster_Label.place(relx = .25, rely = .45, relwidth = .5, relheight = .1)
     elif inputtedMasterPass_hash == masterPass_hash:
-        master_password = inputtedMasterPass
         homePageAfterEnter(inputtedMasterPass)
 
     data.close()
@@ -276,9 +274,9 @@ def PassStrengthChecker():
             passStr=("Strong Password!")
         else:
             passStr=("Very Strong Password")
-        Passwordstrength = tk.Label(topRetrieveEntry, text=passStr)
+        Passwordstrength = tk.Label(topRetrieveEntry, text=passStr, fg='#FF0000')
         Passwordstrength.place(relx=.15, rely=.6, relwidth=.7, relheight=.05)
-        Passwordscore = tk.Label(topRetrieveEntry, text=score)
+        Passwordscore = tk.Label(topRetrieveEntry, text="Score: " + str(score), fg='#FF0000')
         Passwordscore.place(relx=.15, rely=.65, relwidth=.7, relheight=.05)
 
     # Creates password checker label
@@ -289,17 +287,17 @@ def PassStrengthChecker():
     Password_Entry = tk.Entry(topRetrieveEntry)
     Password_Entry.place(relx=.25, rely=.2, relwidth=.5, relheight=.1)
     # Submit password button
-    PasswordStrengthTest_Button = tk.Button(topRetrieveEntry, text="Submit", command=PasswordCalculator)
+    PasswordStrengthTest_Button = tk.Button(topRetrieveEntry, text="Submit", command=PasswordCalculator, bg='#00FF00')
     PasswordStrengthTest_Button.place(relx=.35, rely=.4, relwidth=.3, relheight=.1)
     tip = "Do not enter your own password into this box!"
     tip1 = "Use all sorts of characters like:"
     tip2 = "lowercase, uppercase, numbers, and even special characters!"
     text_Label1 = tk.Label(topRetrieveEntry, text=tip)
-    text_Label1.place(relx = .15, rely = .7, relwidth = .7, relheight = .05)
+    text_Label1.place(relx = .15, rely = .75, relwidth = .7, relheight = .05)
     text_Label2 = tk.Label(topRetrieveEntry, text=tip1)
-    text_Label2.place(relx = .15, rely = .75, relwidth = .7, relheight = .05)
+    text_Label2.place(relx = .15, rely = .8, relwidth = .7, relheight = .05)
     text_Label3 = tk.Label(topRetrieveEntry, text=tip2)
-    text_Label3.place(relx = .025, rely = .8, relwidth = 1, relheight = .05)
+    text_Label3.place(relx = .025, rely = .85, relwidth = 1, relheight = .05)
 
 
 
@@ -313,33 +311,20 @@ enterMasterPass_Label['font'] = bigFont
 enterMasterPass_Entry = tk.Entry(canvas, show="*")
 enterMasterPass_Entry.place(relx = .25, rely = .2, relwidth = .5, relheight = .1)
 # Submit button 
-goMasterPass_Button = tk.Button(canvas, text = "Submit", command = checkMasterPassToLogin)
+goMasterPass_Button = tk.Button(canvas, text = "Submit", command = checkMasterPassToLogin, bg='#00FF00')
 goMasterPass_Button.place(relx = .35, rely = .35, relwidth = .3, relheight = .1)
 # First time user label
 dontHaveMasterPass_Label = tk.Label(canvas, text="First time user?")
-dontHaveMasterPass_Label.place(relx = .1, rely = .6, relwidth = .8, relheight = .1)
+dontHaveMasterPass_Label.place(relx = .1, rely = .55, relwidth = .8, relheight = .1)
 enterMasterPass_Label['font'] = smallFont
 # Create master password button
-dontHaveMasterPass_Button = tk.Button(canvas, text = "Create Master Password", command = createMasterPass)
-dontHaveMasterPass_Button.place(relx = .2, rely = .7, relwidth = .6, relheight = .2)
+dontHaveMasterPass_Button = tk.Button(canvas, text = "Create Master Password", command = createMasterPass, bg = '#FFBF00')
+dontHaveMasterPass_Button.place(relx = .2, rely = .65, relwidth = .6, relheight = .2)
 #Test password Strength button
-PasswordStrengthTest_Button = tk.Button(canvas, text = "Test Password Strength", command = PassStrengthChecker)
-PasswordStrengthTest_Button.place(relx = .2, rely = .9, relwidth = .6, relheight = .1)
+PasswordStrengthTest_Button = tk.Button(canvas, text = "Test Password Strength", command = PassStrengthChecker, bg = '#FFBF00')
+PasswordStrengthTest_Button.place(relx = .2, rely = .87, relwidth = .6, relheight = .1)
 
-# called when root is closed
-def on_closing_root():
-    try:
-        text = json.dumps(pass_dict)
-        encoded = utils.encode_vigenere_cipher(text, master_password)
-        pass_file = open('passwords.txt', 'w')
-        pass_file.write(encoded)
-        pass_file.close()
-    except NameError:
-        pass
-    
-    root.destroy()
 
-root.wm_protocol("WM_DELETE_WINDOW", on_closing_root)
 
 
 root.mainloop()
