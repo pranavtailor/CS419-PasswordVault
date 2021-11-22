@@ -11,7 +11,7 @@ Group:
 
 Features:
   - Graphical user interface
-  - Master password requried to enter the vault
+  - Master password required to enter the vault
   - Storing login credentials for different softwares
   - Reading login credentials after inputting software name
   - Automatic encrypting/decrypting of credentials using a Vigenere cipher
