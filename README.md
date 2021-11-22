@@ -20,10 +20,6 @@ Features:
 
 How to run:
   - Need Python 3 installed
-  - Two files: (CS419-PasswordVault.py) and (utils.py) need to be downloaded 
-  - Python-utils must be installed
-      - pip install python-utils  (enter this into cmd)
-      - easy_install python-utils  (or enter this if pip not available)
-      - https://pypi.org/project/python-utils/  (or manually download from here)
+  - Two files: (CS419-PasswordVault.py) and (utils.py) need to be downloaded
   - Put both files into an IDE and hit run
 
