@@ -3,7 +3,7 @@ Password storage program with end-to-end encryption
   - A simple software to manage a users passwords securely. Meant for personal use.
 
 Group:
-  - Pranav Tailor
+  - Team Leader: Pranav Tailor
   - Usayed Mahmud
   - Joshua Sennett
   - Tim Walker
