@@ -22,5 +22,3 @@ How to run:
   - Need Python 3 installed
   - Two files: (CS419-PasswordVault.py) and (utils.py) need to be downloaded
   - Put both files into an IDE and hit run
-
-Presentation: https://www.youtube.com/watch?v=830ZmmQATNI
